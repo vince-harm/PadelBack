@@ -1,10 +1,7 @@
 package be.angularpadelclub.padelback.reservation;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,7 +10,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/reservations")
-
 
 public class ReservationController {
 
@@ -48,5 +44,17 @@ public class ReservationController {
     @PostMapping
     public reservation createReservation(@RequestBody reservation reservation) {
         return reservation;
+    }
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public reservation create(@RequestBody reservation dto) {
+        reservation newRes = new reservation(
+                UUID.randomUUID(),
+                dto.courtName(),
+                dto.date(),
+                dto.timeSlot(),
+                dto.playerName()
+        );
+        RESERVATIONS.add(newRes);
+        return newRes;
     }
 }
