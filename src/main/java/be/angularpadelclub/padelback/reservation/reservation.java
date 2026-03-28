@@ -7,5 +7,6 @@ public record reservation(
         UUID uuid,
         String courtName,
         LocalDate date,
-        String timeSlot
+        String timeSlot,
+        String playerName
 ) {}
