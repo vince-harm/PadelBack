@@ -1,3 +1,4 @@
+//Vérifie que JPA sauve vraiment en DB H2.
 package be.angularpadelclub.padelback;
 
 import be.angularpadelclub.padelback.reservation.ReservationEntity;

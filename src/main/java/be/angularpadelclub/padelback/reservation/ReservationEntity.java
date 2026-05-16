@@ -7,10 +7,7 @@ import jakarta.persistence.GenerationType;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -23,10 +20,22 @@ public class ReservationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(nullable = false)
     private String courtName;
+
+    @Column(nullable = false)
     private LocalDate date;
+
+    @Column(nullable = false)
     private LocalTime startTime;
+
+    @Column(nullable = false)
     private LocalTime endTime;
+
+    @Column(nullable = false)
     private String playerMatricule;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 }
