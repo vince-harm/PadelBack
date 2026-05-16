@@ -1,0 +1,16 @@
+INSERT INTO sites (id, name, city, opening_time, closing_time, active)
+VALUES
+    ('11111111-1111-1111-1111-111111111111', 'The Atomium Padel Club', 'Bruxelles', '08:00:00', '23:00:00', true),
+    ('22222222-2222-2222-2222-222222222222', 'The Carré Club', 'Liège', '08:00:00', '23:00:00', true),
+    ('33333333-3333-3333-3333-333333333333', 'Arlon Green Padel', 'Arlon', '08:00:00', '23:00:00', true);
+
+INSERT INTO courts (id, name, type, site_id)
+VALUES
+    (RANDOM_UUID(), 'Court1', 'Indoor', '11111111-1111-1111-1111-111111111111'),
+    (RANDOM_UUID(), 'Court2', 'Outdoor', '11111111-1111-1111-1111-111111111111'),
+
+    (RANDOM_UUID(), 'Court1', 'Outdoor', '22222222-2222-2222-2222-222222222222'),
+    (RANDOM_UUID(), 'Court2', 'Indoor', '22222222-2222-2222-2222-222222222222'),
+
+    (RANDOM_UUID(), 'Court1', 'Indoor', '33333333-3333-3333-3333-333333333333'),
+    (RANDOM_UUID(), 'Court2', 'Outdoor', '33333333-3333-3333-3333-333333333333');
