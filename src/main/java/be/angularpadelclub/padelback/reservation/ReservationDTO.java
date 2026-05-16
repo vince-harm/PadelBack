@@ -3,7 +3,7 @@ package be.angularpadelclub.padelback.reservation;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record Reservation(
+public record ReservationDTO(
         UUID uuid,
         String courtName,
         LocalDate date,

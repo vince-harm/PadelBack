@@ -13,16 +13,16 @@ import java.util.UUID;
 
 public class ReservationController {
 
-    private static final List<Reservation> RESERVATIONS = new ArrayList<>();
+    private static final List<ReservationDTO> RESERVATIONS = new ArrayList<>();
     static {
-        RESERVATIONS.add(new Reservation(
+        RESERVATIONS.add(new ReservationDTO(
                 UUID.randomUUID(),
                 "Court 1",
                 LocalDate.of(2026, 3, 28),
                 "10:00",
                 "Vincent"
         ));
-        RESERVATIONS.add(new Reservation(
+        RESERVATIONS.add(new ReservationDTO(
                 UUID.randomUUID(),
                 "Court 2",
                 LocalDate.of(2026, 3, 28),
@@ -32,22 +32,22 @@ public class ReservationController {
     }
 
     @GetMapping(produces = "application/json")
-    public List<Reservation> getAll() {
+    public List<ReservationDTO> getAll() {
         return RESERVATIONS;
     }
 
     @GetMapping
-    public List<Reservation> getReservations() {
+    public List<ReservationDTO> getReservations() {
         return List.of();
     }
 
     @PostMapping
-    public Reservation createReservation(@RequestBody Reservation reservation) {
+    public ReservationDTO createReservation(@RequestBody ReservationDTO reservation) {
         return reservation;
     }
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public Reservation create(@RequestBody Reservation dto) {
-        Reservation newRes = new Reservation(
+    public ReservationDTO create(@RequestBody ReservationDTO dto) {
+        ReservationDTO newRes = new ReservationDTO(
                 UUID.randomUUID(),
                 dto.courtName(),
                 dto.date(),
