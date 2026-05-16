@@ -1,34 +1,42 @@
 package be.angularpadelclub.padelback.reservation;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/reservations")
-
+@RequiredArgsConstructor
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final ReservationMapper reservationMapper;
 
-    public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
+    @GetMapping(produces = "application/json")
+    public List<ReservationDTO> reservations() {
+        return reservationMapper.toDTOList(reservationService.findAll());
     }
 
-    @GetMapping
-    public List<ReservationDTO> findAll() {
-        return reservationService.findAll();
+    @GetMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<ReservationDTO> reservation(@PathVariable UUID id) {
+        return ResponseEntity.of(
+                reservationService.findById(id)
+                        .map(reservationMapper::toDTO)
+        );
     }
 
-    @PostMapping
-    public ReservationDTO create(@RequestBody ReservationDTO dto) {
-        return reservationService.create(dto);
+    @PostMapping(consumes = "application/json")
+    public void addReservation(@RequestBody ReservationDTO reservationDTO) {
+        ReservationEntity reservation = reservationMapper.toEntity(reservationDTO);
+        reservationService.addReservation(reservation);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable UUID id) {
-        reservationService.deleteById(id);
+    public void deleteReservation(@PathVariable UUID id) {
+        reservationService.deleteReservation(id);
     }
 }
