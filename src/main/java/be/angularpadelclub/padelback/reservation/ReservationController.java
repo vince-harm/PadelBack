@@ -31,8 +31,7 @@ public class ReservationController {
 
     @PostMapping(consumes = "application/json")
     public void addReservation(@RequestBody ReservationDTO reservationDTO) {
-        ReservationEntity reservation = reservationMapper.toEntity(reservationDTO);
-        reservationService.addReservation(reservation);
+        reservationService.addReservation(reservationDTO);
     }
 
     @DeleteMapping("/{id}")

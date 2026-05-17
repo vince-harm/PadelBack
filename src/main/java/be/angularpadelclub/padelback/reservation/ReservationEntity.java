@@ -1,4 +1,5 @@
 package be.angularpadelclub.padelback.reservation;
+import be.angularpadelclub.padelback.court.CourtEntity;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -21,8 +22,9 @@ public class ReservationEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private String courtName;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "court_id", nullable = false)
+    private CourtEntity court;
 
     @Column(nullable = false)
     private LocalDate date;
