@@ -2,6 +2,7 @@
 
 package be.angularpadelclub.padelback;
 
+import be.angularpadelclub.padelback.court.CourtEntity;
 import be.angularpadelclub.padelback.reservation.ReservationDTO;
 import be.angularpadelclub.padelback.reservation.ReservationEntity;
 import be.angularpadelclub.padelback.reservation.ReservationMapper;
@@ -19,7 +20,11 @@ class ReservationMapperTest {
     @Test
     void shouldMapEntityToDto() {
         ReservationEntity entity = new ReservationEntity();
-        entity.setCourtName("Court 1");
+
+        CourtEntity court = new CourtEntity();
+        court.setName("Court 1");
+
+        entity.setCourt(court);
         entity.setDate(LocalDate.of(2026, 6, 20));
         entity.setStartTime(LocalTime.of(18, 0));
         entity.setEndTime(LocalTime.of(19, 30));

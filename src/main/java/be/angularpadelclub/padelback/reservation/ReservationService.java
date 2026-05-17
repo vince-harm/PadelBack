@@ -34,9 +34,21 @@ public class ReservationService {
         return reservationRepository.findById(id);
     }
 
-    public void addReservation(@org.jetbrains.annotations.UnknownNullability ReservationEntity dto) {
+    public void addReservation(ReservationDTO dto) {
         CourtEntity court = courtRepository.findById(dto.courtId())
                 .orElseThrow(() -> new RuntimeException("Court not found"));
+
+        boolean conflict = reservationRepository
+                .existsByCourtAndDateAndStartTimeLessThanAndEndTimeGreaterThan(
+                        court,
+                        dto.date(),
+                        dto.endTime(),
+                        dto.startTime()
+                );
+
+        if (conflict) {
+            throw new RuntimeException("Ce terrain est déjà réservé sur ce créneau.");
+        }
 
         ReservationEntity reservation = reservationMapper.toEntity(dto, court);
         reservation.setId(null);

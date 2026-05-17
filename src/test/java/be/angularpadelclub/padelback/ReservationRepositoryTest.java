@@ -1,6 +1,7 @@
 //Vérifie que addReservation() met bien createdAt et appelle le repository.save() pour persister l'entité. C'est un test d'intégration qui vérifie que la couche service fonctionne correctement avec la couche repository et la base de données en mémoire H2.
 package be.angularpadelclub.padelback;
 
+import be.angularpadelclub.padelback.court.CourtEntity;
 import be.angularpadelclub.padelback.reservation.ReservationEntity;
 import be.angularpadelclub.padelback.reservation.ReservationRepository;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,11 @@ class ReservationRepositoryTest {
     @Test
     void shouldSaveReservation() {
         ReservationEntity entity = new ReservationEntity();
-        entity.setCourtName("Court 1");
+
+        CourtEntity court = new CourtEntity();
+        court.setName("Court 1");
+
+        entity.setCourt(court);
         entity.setDate(LocalDate.of(2026, 6, 20));
         entity.setStartTime(LocalTime.of(18, 0));
         entity.setEndTime(LocalTime.of(19, 30));
