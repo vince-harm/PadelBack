@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,5 +38,15 @@ public class ReservationController {
     @DeleteMapping("/{id}")
     public void deleteReservation(@PathVariable UUID id) {
         reservationService.deleteReservation(id);
+    }
+
+    @GetMapping(params = {"courtId", "date"}, produces = "application/json")
+    public List<ReservationDTO> reservationsByCourtAndDate(
+            @RequestParam UUID courtId,
+            @RequestParam LocalDate date
+    ) {
+        return reservationMapper.toDTOList(
+                reservationService.findByCourtAndDate(courtId, date)
+        );
     }
 }

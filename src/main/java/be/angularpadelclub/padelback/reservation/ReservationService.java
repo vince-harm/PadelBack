@@ -4,6 +4,7 @@ import be.angularpadelclub.padelback.court.CourtEntity;
 import be.angularpadelclub.padelback.court.CourtRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -59,5 +60,8 @@ public class ReservationService {
 
     public void deleteReservation(UUID id) {
         reservationRepository.deleteById(id);
+    }
+    public List<ReservationEntity> findByCourtAndDate(UUID courtId, LocalDate date) {
+        return reservationRepository.findByCourtIdAndDate(courtId, date);
     }
 }
