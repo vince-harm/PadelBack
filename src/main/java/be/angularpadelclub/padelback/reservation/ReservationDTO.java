@@ -8,8 +8,9 @@ public record ReservationDTO(
         UUID id,
         UUID courtId,
         String courtName,
+        UUID memberId,
+        String playerMatricule,
         LocalDate date,
         LocalTime startTime,
-        LocalTime endTime,
-        String playerMatricule
+        LocalTime endTime
 ) {}

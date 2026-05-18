@@ -1,21 +1,21 @@
 package be.angularpadelclub.padelback.reservation;
+
 import be.angularpadelclub.padelback.court.CourtEntity;
+import be.angularpadelclub.padelback.member.MemberEntity;
 import jakarta.persistence.*;
 
 import java.util.UUID;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
 import lombok.*;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="reservations")
-
+@Table(name = "reservations")
 public class ReservationEntity {
 
     @Id
@@ -35,9 +35,15 @@ public class ReservationEntity {
     @Column(nullable = false)
     private LocalTime endTime;
 
-    @Column(nullable = false)
-    private String playerMatricule;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "member_id", nullable = false)
+    private MemberEntity member;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

@@ -2,10 +2,11 @@ package be.angularpadelclub.padelback.reservation;
 
 import be.angularpadelclub.padelback.court.CourtEntity;
 import be.angularpadelclub.padelback.court.CourtRepository;
+import be.angularpadelclub.padelback.member.MemberEntity;
+import be.angularpadelclub.padelback.member.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,15 +16,18 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final CourtRepository courtRepository;
+    private final MemberRepository memberRepository;
     private final ReservationMapper reservationMapper;
 
     public ReservationService(
             ReservationRepository reservationRepository,
             CourtRepository courtRepository,
+            MemberRepository memberRepository,
             ReservationMapper reservationMapper
     ) {
         this.reservationRepository = reservationRepository;
         this.courtRepository = courtRepository;
+        this.memberRepository = memberRepository;
         this.reservationMapper = reservationMapper;
     }
 
@@ -35,9 +39,16 @@ public class ReservationService {
         return reservationRepository.findById(id);
     }
 
+    public List<ReservationEntity> findByCourtAndDate(UUID courtId, LocalDate date) {
+        return reservationRepository.findByCourtIdAndDate(courtId, date);
+    }
+
     public void addReservation(ReservationDTO dto) {
         CourtEntity court = courtRepository.findById(dto.courtId())
                 .orElseThrow(() -> new RuntimeException("Court not found"));
+
+        MemberEntity member = memberRepository.findById(dto.memberId())
+                .orElseThrow(() -> new RuntimeException("Member not found"));
 
         boolean conflict = reservationRepository
                 .existsByCourtAndDateAndStartTimeLessThanAndEndTimeGreaterThan(
@@ -51,17 +62,13 @@ public class ReservationService {
             throw new RuntimeException("Ce terrain est déjà réservé sur ce créneau.");
         }
 
-        ReservationEntity reservation = reservationMapper.toEntity(dto, court);
+        ReservationEntity reservation = reservationMapper.toEntity(dto, court, member);
         reservation.setId(null);
-        reservation.setCreatedAt(LocalDateTime.now());
 
         reservationRepository.save(reservation);
     }
 
     public void deleteReservation(UUID id) {
         reservationRepository.deleteById(id);
-    }
-    public List<ReservationEntity> findByCourtAndDate(UUID courtId, LocalDate date) {
-        return reservationRepository.findByCourtIdAndDate(courtId, date);
     }
 }
